@@ -116,8 +116,6 @@ $(document).ready(function() {
             domBoxAttrVal(name, val);
           });
 
-          console.log(reverseLookupInitialVal);
-
           if (domFieldVal(domField, 'kind').toLowerCase() == 'text') domBoxAttr('text_formatting').parents('li').show();
           if (domFieldVal(domField, 'kind').toLowerCase() == 'has_one' ||
               domFieldVal(domField, 'kind').toLowerCase() == 'has_many') domBoxAttr('target').parents('li').show();

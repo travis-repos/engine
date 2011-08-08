@@ -117,4 +117,27 @@ module Admin::CustomFieldsHelper
     end
   end
 
+  def has_many_data_to_js(field, content)
+    options = {
+      :taken_ids => content.send(field._alias.to_sym).ids
+    }
+
+    if !content.new_record? && field.reverse_has_many?
+      url_options =  {
+        :breadcrumb_alias => field.reverse_lookup_alias,
+        "content[#{field.reverse_lookup_alias}]" => content._id
+      }
+
+      options.merge!(
+        :new_item   => {
+          :label  => t('admin.contents.form.has_many.new_item'),
+          :url    => new_admin_content_url(field.target_klass._parent.slug, url_options)
+        },
+        :edit_item_url => edit_admin_content_url(field.target_klass._parent.slug, 42, url_options)
+      )
+    end
+
+    collection_to_js(options_for_has_many(field, content), options)
+  end
+
 end
