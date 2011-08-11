@@ -71,6 +71,8 @@ en:
           edit_categories: Edit options
         file:
           delete_file: Delete file
+        has_many:
+          empty: Empty
       index:
         is_required: is required
         default_label: Field name

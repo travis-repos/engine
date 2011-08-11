@@ -71,6 +71,8 @@ fr:
           edit_categories: Editer options
         file:
           delete_file: Supprimer fichier
+        has_many:
+          empty: Vide
       index:
         is_required: est obligatoire
         default_label: Nom du champ
