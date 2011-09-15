@@ -20,6 +20,7 @@ en:
       custom_fields: Custom fields
       other_fields: Other information
       presentation: Presentation
+      api: API settings
       attributes: Attributes
       upload: Upload
     labels:

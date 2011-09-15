@@ -19,6 +19,7 @@ fr:
       options: Options avancées
       custom_fields: Champs personnalisés
       other_fields: Autres informations
+      api: Paramétrage API
       presentation: Présentation
       attributes: Propriétés
       upload: Envoi au serveur

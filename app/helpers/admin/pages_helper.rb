@@ -31,4 +31,12 @@ module Admin::PagesHelper
     ]
   end
 
+  def options_for_page_response_type
+    [
+      ['HTML', 'text/html'],
+      ['RSS', 'application/rss+xml'],
+      ['JSON', 'application/json']
+    ]
+  end
+
 end

@@ -17,8 +17,9 @@ class Page
   field :slug
   field :fullpath
   field :raw_template
-  field :published, :type => Boolean, :default => false
-  field :cache_strategy, :default => 'none'
+  field :published,       :type => Boolean, :default => false
+  field :cache_strategy,  :default => 'none'
+  field :response_type,   :default => 'text/html'
 
   ## associations ##
   referenced_in :site
@@ -29,10 +30,10 @@ class Page
   index [[:fullpath, Mongo::ASCENDING], [:site_id, Mongo::ASCENDING]]
 
   ## callbacks ##
-  after_initialize :set_default_raw_template
-  before_validation :normalize_slug
-  before_save { |p| p.fullpath = p.fullpath(true) }
-  before_destroy :do_not_remove_index_and_404_pages
+  after_initialize    :set_default_raw_template
+  before_validation   :normalize_slug
+  before_save         { |p| p.fullpath = p.fullpath(true) }
+  before_destroy      :do_not_remove_index_and_404_pages
 
   ## validations ##
   validates_presence_of     :site, :title, :slug
@@ -41,6 +42,7 @@ class Page
 
   ## named scopes ##
   scope :latest_updated, :order_by => [[:updated_at, :desc]], :limit => Locomotive.config.lastest_items_nb
+  scope :ordered_by_position, :order_by => [[:position, :asc]]
   scope :root, :where => { :slug => 'index', :depth => 0 }
   scope :not_found, :where => { :slug => '404', :depth => 0 }
   scope :published, :where => { :published => true }

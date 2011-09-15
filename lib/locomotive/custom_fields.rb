@@ -5,6 +5,7 @@ CustomFields.options = {
 
 # Set correct paths
 module CustomFields
+
   module Types
     module File
       class FileUploader < ::CarrierWave::Uploader::Base

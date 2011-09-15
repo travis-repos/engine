@@ -13,6 +13,8 @@
 
     = f.input :slug, :required => false, :hint => @page.slug.blank? ? '&nbsp;' : page_url(@page), :input_html => { :'data-url' => get_path_admin_pages_url, :disabled => @page.index? || @page.not_found? }, :wrapper_html => { :style => "#{'display: none' if @page.templatized?};" }
 
+    = f.input :response_type, :as => :select, :collection => options_for_page_response_type, :include_blank => false
+
 = render 'editable_elements', :page => @page
 
 = f.foldable_inputs :name => :seo do

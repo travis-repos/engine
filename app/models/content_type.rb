@@ -13,8 +13,10 @@ class ContentType
   field :order_direction, :default => 'asc'
   field :highlighted_field_name
   field :group_by_field_name
-  field :api_enabled, :type => Boolean, :default => false
-  field :api_accounts, :type => Array
+  field :api_enabled,   :type => Boolean, :default => false
+  field :api_actions,   :type => Array,   :default => []
+  field :api_fields,    :type => Array
+  field :api_accounts,  :type => Array
 
   ## associations ##
   referenced_in :site
@@ -31,14 +33,16 @@ class ContentType
   index [[:site_id, Mongo::ASCENDING], [:slug, Mongo::ASCENDING]]
 
   ## callbacks ##
-  before_validation :normalize_slug
-  before_save :set_default_values
-  after_destroy :remove_uploaded_files
+  before_validation   :normalize_slug
+  before_validation   :clean_api_actions
+  before_save         :set_default_values
+  after_destroy       :remove_uploaded_files
 
   ## validations ##
-  validates_presence_of :site, :name, :slug
+  validates_presence_of   :site, :name, :slug
   validates_uniqueness_of :slug, :scope => :site_id
-  validates_size_of :content_custom_fields, :minimum => 1, :message => :array_too_short
+  validates_size_of       :content_custom_fields, :minimum => 1, :message => :array_too_short
+  validates_size_of       :api_actions, :minimum => 1, :message => :array_too_short
 
   ## behaviours ##
   custom_fields_for :contents
@@ -122,11 +126,27 @@ class ContentType
     @group_by_field ||= self.content_custom_fields.detect { |f| f._name == self.group_by_field_name }
   end
 
+  def allow_api_for?(action_name)
+    self.api_enabled? && self.api_actions.include?(action_name)
+  end
+
+  def api_field_aliases
+    fields = self.content_custom_fields.where(:_name.in => self.api_fields)
+
+    fields = self.content_custom_fields.all if fields.empty?
+
+    fields.map(&:_alias)
+  end
+
   protected
 
   def set_default_values
     self.order_by ||= 'created_at'
     self.highlighted_field_name ||= self.content_custom_fields.first._name
+  end
+
+  def clean_api_actions
+    self.api_actions.delete_if { |v| v.blank? }
   end
 
   def normalize_slug

@@ -11,6 +11,14 @@ module Admin
 
     before_filter :sanitize_content_params, :only => :create
 
+    def index
+      @contents = @content_type.ordered_contents
+
+      respond_to do |format|
+        format.json { render :json => { :contents => @contents } }
+      end
+    end
+
     def create
       @content = @content_type.contents.build(params[:content])
 
@@ -39,7 +47,8 @@ module Admin
     end
 
     def block_content_type_with_disabled_api
-      unless @content_type.api_enabled?
+      unless @content_type.allow_api_for?(self.action_name)
+        # !@content_type.api_enabled? || !(@content_type.api_actions || %(index create)).include?(self.action_name)
         respond_to do |format|
           format.json { render :json => { :error => 'Api not enabled' }, :status => :forbidden  }
           format.html { render :text => 'Api not enabled', :status => :forbidden }

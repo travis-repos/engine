@@ -40,18 +40,24 @@ module Locomotive
           path = [path, File.join(dirname, 'content_type_template').gsub(/^\//, '')]
         end
 
-        if page = current_site.pages.any_in(:fullpath => [*path]).first
-          if not page.published? and current_admin.nil?
-            page = nil
+        page = nil
+
+        current_site.pages.ordered_by_position.any_in(:fullpath => [*path]).each do |_page|
+          if not _page.published? and current_admin.nil?
+            next
           else
-            if page.templatized?
-              @content_instance = page.content_type.contents.where(:_slug => File.basename(path.first)).first
+            if _page.templatized?
+              @content_instance = _page.content_type.contents.where(:_slug => File.basename(path.first)).first
 
               if @content_instance.nil? || (!@content_instance.visible? && current_admin.nil?) # content instance not found or not visible
-                page = nil
+                next
               end
             end
           end
+
+          page = _page
+
+          break
         end
 
         page || not_found_page
@@ -93,7 +99,7 @@ module Locomotive
       def prepare_and_set_response(output)
         flash.discard
 
-        response.headers['Content-Type'] = 'text/html; charset=utf-8'
+        response.headers['Content-Type'] = "#{@page.response_type}; charset=utf-8"
 
         if @page.with_cache?
           fresh_when :etag => @page, :last_modified => @page.updated_at.utc, :public => true

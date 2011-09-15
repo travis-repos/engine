@@ -1,5 +1,17 @@
 BOARD:
 
+x RSS Feed
+  x render rss pages
+  x liquid tags
+    x date
+    x url_for
+    x auto_link....
+- API
+  x api_actions, api_fields, ...etc
+  x api controller
+  x routes
+  - migration to set api_actions to [create]
+
 BACKLOG:
 
 - custom_fields:

@@ -3,6 +3,29 @@ module Locomotive
     module Filters
       module Html
 
+        # Returns a link tag that browsers and news readers can use to auto-detect an RSS or ATOM feed.
+        # input: url of the feed
+        # example:
+        #   {{ '/foo/bar' | auto_discovery_link_tag: 'ref:alternate', 'type:atom', 'title:A title' }}
+        def auto_discovery_link_tag(input, *args)
+          options = args_to_options(args)
+
+          rel = options[:rel] || 'alternate'
+          type = options[:type] || Mime::Type.lookup_by_extension('rss').to_s
+          title = options[:title] || 'RSS'
+
+          %{<link rel="#{rel}" type="#{type}" title="#{title}" href="#{input}"}
+        end
+
+        def url_for(input)
+          if input =~ /^http:\/\//
+            input
+          else
+            request = @context.registers[:controller].request
+            request.protocol + request.host_with_port + input
+          end
+        end
+
         # Write the url to a stylesheet resource
         # input: name of the css file
         def stylesheet_url(input)

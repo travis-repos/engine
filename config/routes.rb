@@ -41,7 +41,7 @@ Rails.application.routes.draw do
       put :sort, :on => :collection
     end
 
-    resources :api_contents, :path => 'api/:slug/contents', :controller => 'api_contents', :only => [:create]
+    resources :api_contents, :path => 'api/:slug/contents', :controller => 'api_contents', :only => [:index, :create]
 
     resources :custom_fields, :path => 'custom/:parent/:slug/fields'
 
@@ -56,6 +56,9 @@ Rails.application.routes.draw do
     match '/installation/:step' => 'installation#show', :as => :installation_step
 
   end
+
+  # shortcut for the API
+  resources :api_contents, :path => 'api/:slug', :controller => 'admin/api_contents', :only => [:index, :create]
 
   # sitemap
   match '/sitemap.xml' => 'admin/sitemaps#show', :format => 'xml'

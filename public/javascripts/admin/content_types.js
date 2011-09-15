@@ -29,13 +29,13 @@ $(document).ready(function() {
 
   $.subscribe('toggle.content_type_api_enabled.checked', function(event, data) {
     // console.log('checked');
-    $('#content_type_api_accounts_input').show();
+    $('#content_type_api_actions_input, #content_type_api_fields_input, #content_type_api_accounts_input').show();
     lastFieldset.trigger('refresh');
   }, []);
 
   $.subscribe('toggle.content_type_api_enabled.unchecked', function(event, data) {
     // console.log('unchecked');
-    $('#content_type_api_accounts_input').hide();
+    $('#content_type_api_actions_input, #content_type_api_fields_input, #content_type_api_accounts_input').hide();
     lastFieldset.trigger('refresh');
   }, []);
 

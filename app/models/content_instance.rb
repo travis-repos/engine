@@ -63,6 +63,12 @@ class ContentInstance
     self._parent = self._parent.reload
   end
 
+  def as_json(options = {})
+    aliases = self.content_type.api_field_aliases
+
+    self.aliased_attributes.keep_if { |k, v| aliases.include?(k) || %w(created_at updated_at).include?(k.to_s) }
+  end
+
   def to_liquid
     Locomotive::Liquid::Drops::Content.new(self)
   end
