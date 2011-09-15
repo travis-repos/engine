@@ -25,7 +25,7 @@
     = hidden_field_tag 'content_type[api_actions][]', ''
     = f.input :api_actions, :as => :select, :collection => %w(index create), :include_blank => false, :multiple => true, :wrapper_html => { :class => 'multiple', :style => (f.object.api_enabled? ? '' : 'display: none') }
     = hidden_field_tag 'content_type[api_fields][]', ''
-    = f.input :api_fields, :as => :select, :collection => f.object.content_custom_fields.map { |f| [f._alias, f._name] }, :include_blank => false, :multiple => true, :wrapper_html => { :class => 'multiple', :style => (f.object.api_enabled? ? '' : 'display: none') }
+    = f.input :api_fields, :as => :select, :collection => f.object.content_custom_fields.map { |field| [field._alias, field._name] }, :include_blank => false, :multiple => true, :wrapper_html => { :class => 'multiple', :style => (f.object.api_enabled? ? '' : 'display: none') }
     = hidden_field_tag 'content_type[api_accounts][]', ''
     = f.input :api_accounts, :as => :select, :collection => current_site.accounts.map { |a| ["#{a.name} <#{a.email}>", a.id] }, :include_blank => false, :multiple => true, :wrapper_html => { :class => 'multiple', :style => (f.object.api_enabled? ? '' : 'display: none') }
 
