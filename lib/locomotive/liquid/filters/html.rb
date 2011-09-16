@@ -14,7 +14,7 @@ module Locomotive
           type = options[:type] || Mime::Type.lookup_by_extension('rss').to_s
           title = options[:title] || 'RSS'
 
-          %{<link rel="#{rel}" type="#{type}" title="#{title}" href="#{input}"}
+          %{<link rel="#{rel}" type="#{type}" title="#{title}" href="#{input}" />}
         end
 
         def url_for(input)
