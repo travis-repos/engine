@@ -35,6 +35,7 @@ module Admin::PagesHelper
     [
       ['HTML', 'text/html'],
       ['RSS', 'application/rss+xml'],
+      ['XML', 'text/xml'],
       ['JSON', 'application/json']
     ]
   end
