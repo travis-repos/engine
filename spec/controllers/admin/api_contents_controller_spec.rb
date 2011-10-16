@@ -70,7 +70,7 @@ describe Admin::ApiContentsController do
         lambda {
           post 'create', default_post_params(:content => {
             :active => true,
-            :file => ActionDispatch::Http::UploadedFile.new(:tempfile => FixturedAsset.open('5k.png'), :filename => '5k.png', :content_type => 'image/png')
+            :file => fixture_file_upload(Rails.root.join('spec', 'fixtures', 'assets', '5k.png'))
           })
         }.should_not raise_exception
       end
