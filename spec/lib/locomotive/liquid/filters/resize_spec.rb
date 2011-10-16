@@ -54,7 +54,7 @@ describe Locomotive::Liquid::Filters::Resize do
       end
 
       it 'should return a liquid error' do
-        @template.render(@context).should include 'Liquid error: wrong number of arguments'
+        @template.render(@context).should include 'Liquid error'
       end
 
     end
