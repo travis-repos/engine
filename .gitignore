@@ -34,5 +34,6 @@ sites/
 permanent
 doc/bushido
 *.swp
+.rbx
 
 
